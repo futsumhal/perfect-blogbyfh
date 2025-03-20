@@ -11,6 +11,7 @@ from forms import CreatecommentForm
 from functools import wraps
 from flask import abort
 from flask_gravatar import Gravatar
+import os
 
 app = Flask(__name__)
 gravatar = Gravatar(app, size=100, rating='g', default='retro', force_default=False, force_lower=False, use_ssl=False, base_url=None)
@@ -19,7 +20,8 @@ ckeditor = CKEditor(app)
 Bootstrap(app)
 
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///blog.db').replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -63,7 +65,8 @@ class Comment(db.Model):
     parent_post = relationship("BlogPost", back_populates="comments")
     text = db.Column(db.Text, nullable=False)
 
-db.create_all()
+with app.app_context():
+    db.create_all()
 login_manager=LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
