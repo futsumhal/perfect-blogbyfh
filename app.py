@@ -1,4 +1,3 @@
-import app
 from flask import Flask, render_template, redirect,request, url_for, flash,session
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
