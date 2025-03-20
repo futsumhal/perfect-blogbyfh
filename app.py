@@ -11,7 +11,6 @@ from forms import CreatecommentForm
 from functools import wraps
 from flask import abort
 from flask_gravatar import Gravatar
-from flask_gravatar import Gravatar
 
 app = Flask(__name__)
 gravatar = Gravatar(app, size=100, rating='g', default='retro', force_default=False, force_lower=False, use_ssl=False, base_url=None)
